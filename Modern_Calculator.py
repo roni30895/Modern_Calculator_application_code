@@ -1,7 +1,8 @@
+import requests
 class Calculator:
 
     # constructor
-    def __init__(self,num1=0,num2=0):
+    def __init__(self,num1=0,num2=0,):
         self.num1=num1
         self.num2 =num2
         
@@ -12,16 +13,17 @@ class Calculator:
         print("\n\t Addition of {} and {} is = {} ".format(self.num1,self.num2,result))
         flag=True
         while flag:
-            print("\n\t 1. To add next number","")
+            print("\n\t 1. To add next number","\n\t 2. Exit")
             add_input=int(input("\n\tSelect Option :",))
             
             if add_input==1:
                 next_number=int(input("\n\t Enter the Next Number : "))
                 new_result= result + next_number
+                result=new_result
                 print("\n\t Addition of {} and {} is = {} ".format(result,next_number,new_result) )
             
             else:
-                Flag=False
+                flag=False
     
     # 2) Method for Subtraction of two numbers
     def subtraction(self,):
@@ -41,9 +43,11 @@ class Calculator:
                 next_number=int(input("\n\t Enter the Next Number : "))
                 if result > next_number:
                     new_result= result - next_number
+                    result=new_result
                     print("\n\t subtraction of {} and {} is = {} ".format(result,next_number,new_result))
                 else:
                     new_result= next_number - result
+                    result=new_result
                     print("\n\t subtraction of {} and {} is = {} ".format(result,next_number,new_result))
 
             else:
@@ -62,10 +66,11 @@ class Calculator:
             if add_input==1:
                 next_number=int(input("\n\t Enter the Next Number : "))
                 new_result= result + next_number
+                result=new_result
                 print("\n\t Multiplication of {} and {} is = {} ".format(result,next_number,new_result) )
             
             else:
-                Flag=False
+                flag=False
     
     # 4) Method for Division of two numbers
     def division(self):
@@ -79,10 +84,11 @@ class Calculator:
             if add_input==1:
                 next_number=int(input("\n\t Enter the Next Number : "))
                 new_result= result + next_number
+                result=new_result
                 print("\n\t Division of {} and {} is = {} ".format(result,next_number,new_result) )
             
             else:
-                Flag=False
+                flag=False
     
     # 5) Method for finding remainder of two numbers
     def find_remainder(self):
@@ -111,46 +117,52 @@ class Calculator:
     def find_cube_root(self):
         print("\n\t Cube of {} is = {} ".format(self.num1,self.num1 ** (1/3)))
     
-    # 11) Method for converting currency INR to USD
-    def inr_to_usd(self):
-        print("\n\t Conversion of Rs.{} into USD is = {} ".format(self.num1,self.num1 * 0.0122107589))
+    # 11) Method for currency converter
+    def currency_converter(self,amount):
+        response= requests.get(
+            f"https://api.frankfurter.app/latest?amount={amount}&from={self.num1}&to={self.num2}"
+        )
+        #print(response.status_code)
+        print(f"\n {amount} {from_currency} is {response.json()['rates'][to_currency]} {to_currency}")
+        
+    # 12) Method for finding the area of triangle
     
-    # 12) Method for converting currency USD to INR
-    def usd_to_inr(self):
-        print("\n\t Conversion of {} USD into INR is = Rs.{} ".format(self.num1,self.num1 * 81.894992))
-    
-    # 13) Method for finding the area of triangle
     def area_of_triangle(self):
         print("\nt\t Area of Triangle with base {} and height {} is = {} ".format(self.num1,self.num2,0.5 * self.num1 * self.num2))
     
-    # 14) Method for finding the area of circle
+    # 13) Method for finding the area of circle
     def area_of_circle(self):
         print("\n\t Area of circle of radius {} is = {} ".format(self.num1,3.14 * self.num1 * self.num1))
 
-    # 15) Method for finding the area of rectangle
+    # 14) Method for finding the area of rectangle
     def area_of_rectangle(self):
         print("\n\t Area of Rectangle with breadth {} and height {} is = {} ".format(self.num1,self.num2, self.num1 * self.num2))
     
-    # 16) Method for finding the area of square
+    # 15) Method for finding the area of square
     def area_of_square(self):
         print("\n\t Area of square with side {} is = {} ".format(self.num1,self.num2,self.num1 * self.num1))
     
-    # 17) Method for finding the percentage
+    # 16) Method for finding the percentage
     def find_percentage(self):
         print("\n\t The percentage is = {} % ".format((self.num1/self.num2) * 100))
     
-    # 18) Method for finding the Nth degree
+    # 17) Method for finding the Nth degree
     def nth_degree(self):
         print("\n\t The {} degree of {} is = {}".format(self.num2,self.num1,self.num1 ** self.num2))
     
-    # 19) Method for finding the Nth root of a number
+    # 18) Method for finding the Nth root of a number
     def nth_root(self):
         print("\n\t The {} root of {} is = {}".format(self.num2,self.num1,self.num1 **(1/self.num2)))
 
 
-    # 20) Method for spliiting expenses amongst friends
-    def split_expense(self):
-        return self.num1 / self.num2
+    # 19) Method for spliiting expenses amongst friends
+    def split_expense(self,who_paid,split_with):
+        split_amount= amount/len(split_with)
+    
+        for name in split_with:
+            if name!=who_paid:
+                print("\n\t{} you need to pay Rs.{} to {} for {}".format(name,split_amount,who_paid,for_what))
+        
 
 
 # Driver Code
@@ -159,11 +171,16 @@ if __name__=="__main__":
 
     # For printing the choices
 
-    print(" \n1.  Addition","\n 2.  Substraction","\n 3.  Multiplication","\n 4.  Division","\n 5.  Find Remainder","\n 6.  Floor Division","\n 7.  Find Square","\n 8.  Find Square Root","\n 9.  Find Cube","\n 10. Find Cube Root","\n 11. INR to USD Conversion","\n 12. USD to INR Conversion","\n 13. Find Area of Triangle","\n 14. Find Area of Circle","\n 15. Find Area of Rectangle","\n 16. Find Area of Square""\n 17. Find Percentage","\n 18. Nth Degree of a number","\n 19. Nth root of number","\n 20. Split Expenses","\n")
+    print("\n 1.  Addition","\n 2.  Substraction","\n 3.  Multiplication","\n 4.  Division",
+    "\n 5.  Find Remainder","\n 6.  Floor Division","\n 7.  Find Square","\n 8.  Find Square Root",
+    "\n 9.  Find Cube","\n 10. Find Cube Root","\n 11. Currency Converter",
+    "\n 12. Find Area of Triangle","\n 13. Find Area of Circle","\n 14. Find Area of Rectangle",
+    "\n 15. Find Area of Square""\n 16. Find Percentage","\n 17. Nth Degree of a number",
+    "\n 18. Nth root of number","\n 19. Split Expenses","\n")
     
     flag= True
     while flag:
-        user_input=int(input("\n Enter your Choice : "))
+        user_input=int(input("\n Enter the number which functionality you want to use : "))
 
         # calling addition function
         if user_input==1:
@@ -242,46 +259,42 @@ if __name__=="__main__":
         # calling conversion of INR to USD function
 
         elif user_input==11:
-            num=int(input("\n Enter the amount in Rupees which you want to convert into USD : "))
-            obj=Calculator(num)
-            obj.inr_to_usd()
+            from_currency=str(input("\n Enter the currency you would like to convert from : ")).upper()
+            to_currency=str(input("\n Enter the currency you would like to convert to : ")).upper()
+            amount=int(input("\n Enter the amount of money = "))
+            obj=Calculator(from_currency,to_currency)
+            obj.currency_converter(amount)
 
-         # calling conversion of USD to INR function
-
-        elif user_input==12:
-            num=int(input("\n Enter the amount in USD which you want to convert into INR : "))
-            obj=Calculator(num)
-            obj.usd_to_inr()
-        
+       
         # calling area of triangle function
-        elif user_input==13:
+        elif user_input==12:
             base=int(input("\n Enter the base of triangle : "))
             height=int(input("\n Enter the height of triangle : "))
             obj=Calculator(base,height)
             obj.area_of_triangle()
         
         # calling area of circle function
-        elif user_input==14:
+        elif user_input==13:
             rad=int(input("\n Enter the radius of circle : "))
             obj=Calculator(rad)
             obj.usd_to_inr()
         
         # calling area of rectangle function
-        elif user_input==15:
+        elif user_input==14:
             breadth=int(input("\n Enter the breadth of rectangle : "))
             height=int(input("\n Enter the height of rectangle : "))
             obj=Calculator(breadth,height)
             obj.area_of_rectangle()
 
         # calling area of square function
-        elif user_input==16:
+        elif user_input==15:
             side=int(input("\n Enter the side of square: "))
             obj=Calculator(side)
             obj.area_of_square()
         
         # calling finding percentage
 
-        elif user_input==17:
+        elif user_input==16:
             maximum=int(input("\n Enter the Maximum Marks : "))
             Total=int(input("\n Enter the Total Marks : "))
             obj=Calculator(maximum,Total)
@@ -289,7 +302,7 @@ if __name__=="__main__":
         
         # calling nth degree function
 
-        elif user_input==18:
+        elif user_input==17:
             number=int(input("\n Enter the number : "))
             degree=int(input("\n Enter the Nth degree of a number : "))
             obj=Calculator(number,degree)
@@ -297,19 +310,24 @@ if __name__=="__main__":
         
         # calling nth root function
 
-        elif user_input==19:
+        elif user_input==18:
             number=int(input("\n Enter the number : "))
             root=int(input("\n Enter the Nth root of a number : "))
             obj=Calculator(number,root)
             obj.nth_root()
         
         # calling split expense function
-        elif user_input==20:
-            expense = float(input("\n Enter the total expense: "))
-            num_of_friends = int(input("\n Enter the number of friends: "))
-            obj=Calculator(expense, num_of_friends)
-            amount_per_friend = obj.split_expense()
-            print("\n Each friend needs to pay Rs.%.2f" % amount_per_friend)
+        elif user_input==19:
+            amount=int(input("\n Enter the amount : "))
+            for_what=input("\n This is for what? : ").upper()
+            who_paid=input("\n Paid By : ").upper()
+            print("\n Choose with whom you want to split ")
+            print("\n 1. Shubham", "\n 2. Palkesh", "\n 3. Anuj", "\n 4. Balaji",
+            "\n 5. Virendra","\n 6. Rohan" )
+            split_with=input("\n Enter the names : ").upper().split()
+            obj=Calculator(amount,for_what)
+            obj.split_expense(who_paid,split_with)
+            
         
         # repeatation code
         repeat = input("\n Do you want to go with other choices, if yes then type Y or type N : ")
